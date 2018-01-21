@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		
+	</head>
+	<body>
+		<div id="div1">
+			<div class="small_pic">
+				<span class="mark"></span>   <!--遮罩层-->
+				<span class="float_layer"></span>
+				<img src="img/small.jpg" />
+			</div>
+			<div class="big_pic">
+				<img src="img/big.jpg" />
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="js/tools.js" ></script>
+	<script type="text/javascript">
+		//获取页面元素
+		let oBox = byId("div1");
+		let oSmallPic = byClassName("small_pic")[0];
+		let oMark = byClassName("mark")[0];
+		let oFloat = byClassName("float_layer")[0];
+		let oBigPic = byClassName("big_pic")[0];
+		let oImg = byTagName(oBigPic,"img")[0];
+		//添加事件
+		oMark.onmouseover = function(){
+			oFloat.style.display = "block";
+			oBigPic.style.display = "block";
+		};
+		oMark.onmouseout = function(){
+			oFloat.style.display = "none";
+			oBigPic.style.display = "none";
+		};
+		oMark.onmousemove = function(evt){
+			let e = evt || window.event;
+			let l = e.pageX - oBox.offsetLeft - oSmallPic.offsetLeft - oFloat.offsetWidth / 2;
+			let t = e.pageY - oBox.offsetTop - oSmallPic.offsetTop - oFloat.offsetHeight / 2;
+			//设置边界
+			if(l <= 0){
+				l = 0;
+			}else if(l >= oMark.offsetWidth - oFloat.offsetWidth){
+				l = oMark.offsetWidth - oFloat.offsetWidth;
+			}
+			if(t <= 0){
+				t = 0;
+			}else if(t >= oMark.offsetHeight - oFloat.offsetHeight){
+				t = oMark.offsetHeight - oFloat.offsetHeight;
+			}
+			//给滑块设置left与top
+			oFloat.style.left = l + "px";
+			oFloat.style.top = t + "px";
+			//求小图移动比例
+			let pX = l / (oMark.offsetWidth - oFloat.offsetWidth);
+			let pY = t / (oMark.offsetHeight - oFloat.offsetHeight);
+			
+			//设置大图显示
+			oImg.style.left = -(pX * (oImg.offsetWidth - oBigPic.offsetWidth)) + "px";
+			oImg.style.top = -(pY * (oImg.offsetHeight - oBigPic.offsetHeight)) + "px";
+		}
+	</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
